@@ -131,6 +131,12 @@
         ],
         "ErrorResponse" : [
             { "name" : "err", "type" : "int" }
+        ],
+        "GetSASLRequest" : [
+            { "name" : "token", "type" : "buffer" }
+        ],
+        "SetSASLResponse" : [
+            { "name" : "token", "type" : "buffer" }
         ]
     }
 }
