@@ -24,8 +24,9 @@
     "node": ">=8.10.0"
   },
   "dependencies": {
-    "underscore": "~1.4.4",
-    "async": "~0.2.7"
+    "async": "~0.2.7",
+    "node-sasl-wrapper": "git://github.com/ztzg/node-sasl-wrapper#RT-46693-sasl-node-js",
+    "underscore": "~1.4.4"
   },
   "licenses": [
     {
