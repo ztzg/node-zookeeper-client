@@ -57,6 +57,9 @@ function defaultStateListener(state) {
     case State.CONNECTED_READ_ONLY:
         this.emit('connectedReadOnly');
         break;
+    case State.SASL_AUTHENTICATED:
+        this.emit('saslAuthenticated');
+        break;
     case State.EXPIRED:
         this.emit('expired');
         break;
@@ -203,6 +206,10 @@ function Client(connectionString, options) {
         options,
         this.onConnectionManagerState.bind(this)
     );
+    this.connectionManager.on(
+        'saslAuthenticated',
+        this.onSaslAuthenticated.bind(this)
+    );
 
     this.options = options;
     this.state = State.DISCONNECTED;
@@ -260,6 +267,18 @@ Client.prototype.onConnectionManagerState = function (connectionManagerState) {
 
     if (this.state !== state) {
         this.state = state;
+        this.emit('state', this.state);
+    }
+};
+
+/**
+ * Private method to translate connection manager SASL authentication
+ * notification into client state.
+ */
+Client.prototype.onSaslAuthenticated = function () {
+    if (this.state === State.SYNC_CONNECTED ||
+        this.state === State.CONNECTED_READ_ONLY) {
+        this.state = State.SASL_AUTHENTICATED;
         this.emit('state', this.state);
     }
 };
